@@ -1,0 +1,49 @@
+# Base this image on rpi-basic-image
+
+DESCRIPTION = "Himinds IOT gateway reference image."
+LICENSE = "MIT"
+
+include rpi-basic-image.bb
+inherit core-image
+
+COMPATIBLE_MACHINE = "^rpi$"
+
+IMAGE_INSTALL = "\
+    packagegroup-core-full-cmdline \
+    packagegroup-base \
+    packagegroup-rpi3 \
+    libwebsockets \
+    zeromq  \
+    paho-mqtt-c \
+    modemmanager \
+    mosquitto  \
+    hostapd \
+    wpa-supplicant \
+    wireless-tools \
+    iw \
+    iproute2 \
+    dhcp-client \
+    json-c \
+    i2c-tools \
+    git \
+    nodejs \
+    nodejs-npm \
+    minicom \
+"
+MENDER_ARTIFACT_NAME = "release-1"
+INHERIT += "mender-full"
+# For Raspberry Pi, uncomment the following block:
+RPI_USE_U_BOOT = "1"
+MENDER_PARTITION_ALIGNMENT_KB = "4096"
+MENDER_BOOT_PART_SIZE_MB = "40"
+IMAGE_INSTALL_append = " kernel-image kernel-devicetree"
+IMAGE_FSTYPES_remove += " rpi-sdimg"
+IMAGE_FSTYPES = "ext4"
+DISTRO_FEATURES_append = " systemd"
+VIRTUAL-RUNTIME_init_manager = "systemd"
+DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
+VIRTUAL-RUNTIME_initscripts = ""
+
+
+
+
